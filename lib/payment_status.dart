@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ftec5510a_group11_frontend/tickicon.dart';
 
 class NextPage extends StatefulWidget {
-  const NextPage({super.key});
+  final bool isPaymentSuccessful;
+
+  const NextPage({super.key, required this.isPaymentSuccessful});
 
   @override
   _NextPageState createState() => _NextPageState();
@@ -22,23 +24,27 @@ class _NextPageState extends State<NextPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Payment Successful',
+                widget.isPaymentSuccessful ? 'Payment Successful' : 'Payment Failed',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: widget.isPaymentSuccessful ? Colors.green : Colors.red,
                   fontSize: 32,
                   fontFamily: 'Lalezar',
                   height: 0.02,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(
+                height: 40,
+                ),
               Container(
-                width: 300,
-                height: 100,
-                child: Image.asset("assets/images/tick.png"),
+                width: widget.isPaymentSuccessful ? 300 : 200, // Set smaller size for cross
+                height: widget.isPaymentSuccessful ? 100 : 50, // Adjust height proportionally
+                child: Image.asset(
+                  widget.isPaymentSuccessful ? "assets/images/tick.png" : "assets/images/cross.png",
+                ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               _buildInfoRow('Amount', '1000 HKD'),
               const SizedBox(height: 20),
               _buildInfoRow('Merchant', 'CHINA MOBILE HONG KONG COMPANY LIMITED'),
@@ -49,16 +55,7 @@ class _NextPageState extends State<NextPage> {
               const SizedBox(height: 20),
               _buildInfoRow('Location', 'Hong Kong, China'),
               const SizedBox(height: 20),
-              // Call the dropdown menu function here
-              // buildDropdownMenu(
-              //   selectedItem: _selectedItem,
-              //   items: _items,
-              //   onChanged: (String? newValue) {
-              //     setState(() {
-              //       _selectedItem = newValue; // Update the selected item
-              //     });
-              //   },
-              // ),
+              // Call the dropdown menu function here if needed
             ],
           ),
         ),

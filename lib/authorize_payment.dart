@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftec5510a_group11_frontend/countdown_timer.dart';
-import 'package:ftec5510a_group11_frontend/payment_success.dart';
+import 'package:ftec5510a_group11_frontend/payment_status.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -56,7 +56,7 @@ class MyHomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NextPage()),
+                      MaterialPageRoute(builder: (context) => const NextPage(isPaymentSuccessful: true)),
                     );
                   },
                   child: Text(
@@ -70,28 +70,36 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
-                width: 300,
-                height: 48,
-                clipBehavior: Clip.antiAlias,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: Colors.black.withOpacity(0.5),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NextPage(isPaymentSuccessful: false)),
+                  );
+                },
+                child: Container(
+                  width: 300,
+                  height: 48,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Decline',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFF69605),
-                      fontSize: 16,
-                      fontFamily: 'Outfit',
+                  child: Center(
+                    child: Text(
+                      'Decline',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFFF69605),
+                        fontSize: 16,
+                        fontFamily: 'Outfit',
+                      ),
                     ),
                   ),
                 ),
