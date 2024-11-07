@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ftec5510a_group11_frontend/countdown_timer.dart';
 import 'package:ftec5510a_group11_frontend/payment_status.dart';
+import 'package:local_auth/local_auth.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -53,11 +54,25 @@ class MyHomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const NextPage(isPaymentSuccessful: true)),
-                    );
+                  onPressed: () async {
+                    // Perform Face ID authentication
+                    final isAuthenticated = await _authenticateWithFaceID();
+                    if (isAuthenticated) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const NextPage(isPaymentSuccessful: true),
+                        ),
+                      );
+                    } else {
+                      // Handle authentication failure
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Face ID authentication failed.'),
+                        ),
+                      );
+                    }
                   },
                   child: Text(
                     'Continue with Face ID',
@@ -74,7 +89,9 @@ class MyHomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const NextPage(isPaymentSuccessful: false)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const NextPage(isPaymentSuccessful: false)),
                   );
                 },
                 child: Container(
@@ -111,6 +128,19 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
+  Future<bool> _authenticateWithFaceID() async {
+    final LocalAuthentication auth = LocalAuthentication();
+    try {
+      final bool didAuthenticate = await auth.authenticate(
+        localizedReason: 'Please authenticate to continue',
+      );
+      return didAuthenticate;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
   Widget _buildInfoRow(String title, String value, {Widget? rightElement}) {
     if (rightElement == null) {
       return Container(
@@ -140,35 +170,36 @@ class MyHomePage extends StatelessWidget {
       );
     } else {
       return Container(
-          width: 300,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.5),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                    ),
+        width: 300,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.5),
+                    fontSize: 14,
+                    fontFamily: 'Inter',
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                    value,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Lalezar',
-                    ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  value,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Lalezar',
                   ),
-                ],
-              ),
-              rightElement,
-            ],
-          ));
+                ),
+              ],
+            ),
+            rightElement,
+          ],
+        ),
+      );
     }
   }
 }
