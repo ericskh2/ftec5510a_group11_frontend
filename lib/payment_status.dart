@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ftec5510a_group11_frontend/tickicon.dart';
 
+import 'main.dart';
+
 class NextPage extends StatefulWidget {
   final bool isPaymentSuccessful;
+  final Map<String, dynamic> transaction;
 
-  const NextPage({super.key, required this.isPaymentSuccessful});
+  const NextPage({super.key, required this.isPaymentSuccessful, required this.transaction});
 
   @override
   _NextPageState createState() => _NextPageState();
@@ -45,17 +48,54 @@ class _NextPageState extends State<NextPage> {
                 ),
               ),
               const SizedBox(height: 40),
-              _buildInfoRow('Amount', '1000 HKD'),
+              _buildInfoRow('Amount', '${widget.transaction['transaction_amount']} HKD'),
               const SizedBox(height: 20),
-              _buildInfoRow('Merchant', 'CHINA MOBILE HONG KONG COMPANY LIMITED'),
+              _buildInfoRow('Merchant', '${widget.transaction['merchant']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Card Number', '1234 1234 1234 1234'),
+              _buildInfoRow('Card Number', '${widget.transaction['transaction_card_id']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Time', '01/01/2024  13:00'),
+              _buildInfoRow('Time', '${widget.transaction['transaction_time']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Location', 'Hong Kong, China'),
+              _buildInfoRow('Location', '${widget.transaction['location']}'),
               const SizedBox(height: 20),
-              // Call the dropdown menu function here if needed
+              _buildInfoRow('Category', '${widget.transaction['category']}'),
+              const SizedBox(height: 20),
+                            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WaitForPaymentPage()),
+                  );
+                },
+                child: Container(
+                  width: 300,
+                  height: 48,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Finish',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFFF69605),
+                        fontSize: 16,
+                        fontFamily: 'Outfit',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

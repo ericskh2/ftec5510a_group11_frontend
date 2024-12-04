@@ -20,7 +20,7 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Authorize Your Payment',
+                'Authorize Payment',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
@@ -67,7 +67,7 @@ class MyHomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const NextPage(isPaymentSuccessful: true),
+                              NextPage(isPaymentSuccessful: true, transaction: this.transaction),
                         ),
                       );
                     } else {
@@ -96,7 +96,7 @@ class MyHomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const NextPage(isPaymentSuccessful: false)),
+                            NextPage(isPaymentSuccessful: false, transaction: this.transaction)),
                   );
                 },
                 child: Container(
