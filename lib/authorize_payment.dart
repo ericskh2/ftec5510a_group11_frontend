@@ -4,7 +4,12 @@ import 'package:ftec5510a_group11_frontend/payment_status.dart';
 import 'package:local_auth/local_auth.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  // const MyHomePage({super.key});
+
+  final Map<String, dynamic> transaction;
+
+  // Constructor
+  const MyHomePage({required this.transaction});
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +31,17 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              _buildInfoRow('Amount', '1000 HKD', rightElement: CountdownTimer()),
+              _buildInfoRow('Amount', '${transaction['transaction_amount']} HKD', rightElement: CountdownTimer()),
               const SizedBox(height: 20),
-              _buildInfoRow('Merchant', 'CHINA MOBILE HONG KONG COMPANY LIMITED'),
+              _buildInfoRow('Merchant', '${transaction['merchant']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Card Number', '1234 1234 1234 1234'),
+              _buildInfoRow('Card Number', '${transaction['transaction_card_id']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Time', '01/01/2024  13:00'),
+              _buildInfoRow('Time', '${transaction['transaction_time']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Location', 'Hong Kong, China'),
+              _buildInfoRow('Location', '${transaction['location']}'),
               const SizedBox(height: 20),
-              _buildInfoRow('Category', 'Communication'),
+              _buildInfoRow('Category', '${transaction['category']}'),
               const SizedBox(height: 20),
               Container(
                 width: 300,
